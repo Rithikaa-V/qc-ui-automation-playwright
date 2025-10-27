@@ -1,0 +1,14 @@
+
+await page.getByText('Configurations', { exact: true }).click();
+await page.getByRole('menuitem', { name: 'Meta' }).click();
+await page.locator('div').filter({ hasText: /^Payment records$/ }).first()
+await page.locator('div').filter({ hasText: /^Reports$/ }).first()
+await page.locator('div').filter({ hasText: /^Ticket Issue$/ }).first()
+await page.getByRole('tab', { name: 'Payment methods' }).click();
+await page.getByRole('button', { name: 'Add Payment Method' }).click();
+await page.getByRole('textbox', { name: 'Payment method*' }).click();
+await page.getByRole('button', { name: 'Save' }).click();
+await page.locator('div').filter({ hasText: /^Payment method name is required$/ }).click();
+await page.getByText('Payment method*').click();
+await page.getByRole('button', { name: 'Save' }).click();
+await page.getByRole('button', { name: 'Close' }).click();

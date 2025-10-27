@@ -1,0 +1,186 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e4]:
+    - complementary [ref=e5]:
+      - generic [ref=e6]:
+        - img [ref=e8] [cursor=pointer]
+        - menu [ref=e10]:
+          - menuitem " Dashboard" [disabled] [ref=e11]:
+            - generic: 
+            - generic [ref=e12]: Dashboard
+          - menuitem " Configurations" [expanded] [ref=e13] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e14]: Configurations
+          - menu [ref=e15]:
+            - menuitem "Building" [ref=e16] [cursor=pointer]:
+              - generic [ref=e18]: Building
+            - menuitem "Pricing" [ref=e19] [cursor=pointer]:
+              - generic [ref=e21]: Pricing
+            - menuitem "Meta" [ref=e22] [cursor=pointer]:
+              - generic [ref=e24]: Meta
+            - menuitem "Agreement" [ref=e25] [cursor=pointer]:
+              - generic [ref=e27]: Agreement
+          - menuitem " Customers" [ref=e28] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e29]: Customers
+          - menuitem " Finance" [ref=e30] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e31]: Finance
+          - menuitem " Internal Management" [ref=e32] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e33]: Internal Management
+          - menuitem " Reports" [disabled] [ref=e34]:
+            - generic: 
+            - generic [ref=e35]: Reports
+          - menuitem " Settings" [ref=e36] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e37]: Settings
+    - generic [ref=e38]:
+      - banner [ref=e39]:
+        - generic [ref=e40]:
+          - heading "Meta Configuration" [level=3] [ref=e41] [cursor=pointer]
+          - generic [ref=e43] [cursor=pointer]: SU
+      - main [ref=e44]:
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - tablist [ref=e47]:
+              - generic [ref=e49]:
+                - tab "Payment methods" [selected] [ref=e51] [cursor=pointer]
+                - tab "Institutions" [ref=e53] [cursor=pointer]
+                - tab "Payment records" [ref=e55] [cursor=pointer]
+                - tab "Reports" [ref=e57] [cursor=pointer]
+                - tab "Ticket Issue" [ref=e59] [cursor=pointer]
+                - tab "Ticket location" [ref=e61] [cursor=pointer]
+                - tab "Year of study" [ref=e63] [cursor=pointer]
+                - tab "Discount" [ref=e65] [cursor=pointer]
+                - tab "Building" [ref=e67] [cursor=pointer]
+            - generic:
+              - generic:
+                - tabpanel "Payment methods"
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - generic [ref=e71]:
+                - generic [ref=e73]: 
+                - textbox "Search" [ref=e74]
+              - button "Add Payment Method" [ref=e78] [cursor=pointer]:
+                - generic [ref=e79]: Add Payment Method
+            - generic [ref=e83]:
+              - generic [ref=e85] [cursor=pointer]:
+                - heading "upi" [level=5] [ref=e86]:
+                  - generic [ref=e87]: upi
+                - generic:  
+              - generic [ref=e89] [cursor=pointer]:
+                - heading "FerryNewTest" [level=5] [ref=e90]:
+                  - generic [ref=e91]: FerryNewTest
+                - generic:  
+              - generic [ref=e93] [cursor=pointer]:
+                - heading "newferry" [level=5] [ref=e94]:
+                  - generic [ref=e95]: newferry
+                - generic:  
+              - generic [ref=e97] [cursor=pointer]:
+                - heading "newpayzz" [level=5] [ref=e98]:
+                  - generic [ref=e99]: newpayzz
+                - generic:  
+              - generic [ref=e101] [cursor=pointer]:
+                - heading "new payz" [level=5] [ref=e102]:
+                  - generic [ref=e103]: new payz
+                - generic:  
+              - generic [ref=e105] [cursor=pointer]:
+                - heading "new pay for college students" [level=5] [ref=e106]:
+                  - generic [ref=e107]: new pay for college students
+                - generic:  
+              - generic [ref=e109] [cursor=pointer]:
+                - heading "New payment for professionals" [level=5] [ref=e110]:
+                  - generic [ref=e111]: New payment for professionals
+                - generic:  
+              - generic [ref=e113] [cursor=pointer]:
+                - heading "new payment for boys" [level=5] [ref=e114]:
+                  - generic [ref=e115]: new payment for boys
+                - generic:  
+              - generic [ref=e117] [cursor=pointer]:
+                - heading "Dev validation we" [level=5] [ref=e118]:
+                  - generic [ref=e119]: Dev validation we
+                - generic:  
+              - generic [ref=e121] [cursor=pointer]:
+                - heading "new payment seven" [level=5] [ref=e122]:
+                  - generic [ref=e123]: new payment seven
+                - generic:  
+              - generic [ref=e125] [cursor=pointer]:
+                - heading "uigiu uyi" [level=5] [ref=e126]:
+                  - generic [ref=e127]: uigiu uyi
+                - generic:  
+              - generic [ref=e129] [cursor=pointer]:
+                - heading "test lokesh" [level=5] [ref=e130]:
+                  - generic [ref=e131]: test lokesh
+                - generic:  
+              - generic [ref=e133] [cursor=pointer]:
+                - heading "Payment Mode" [level=5] [ref=e134]:
+                  - generic [ref=e135]: Payment Mode
+                - generic:  
+              - generic [ref=e137] [cursor=pointer]:
+                - heading "FOntarios12" [level=5] [ref=e138]:
+                  - generic [ref=e139]: FOntarios12
+                - generic:  
+              - generic [ref=e141] [cursor=pointer]:
+                - heading "Pavithra 2" [level=5] [ref=e142]:
+                  - generic [ref=e143]: Pavithra 2
+                - generic:  
+              - generic [ref=e145] [cursor=pointer]:
+                - heading "Pavithra1" [level=5] [ref=e146]:
+                  - generic [ref=e147]: Pavithra1
+                - generic:  
+              - generic [ref=e149] [cursor=pointer]:
+                - heading "Jon Stewart" [level=5] [ref=e150]:
+                  - generic [ref=e151]: Jon Stewart
+                - generic:  
+              - generic [ref=e153] [cursor=pointer]:
+                - heading "newpay05" [level=5] [ref=e154]:
+                  - generic [ref=e155]: newpay05
+                - generic:  
+              - generic [ref=e157] [cursor=pointer]:
+                - heading "Jon Stewart Doe2" [level=5] [ref=e158]:
+                  - generic [ref=e159]: Jon Stewart Doe2
+                - generic:  
+              - generic [ref=e161] [cursor=pointer]:
+                - heading "Jon Stewart Doe1" [level=5] [ref=e162]:
+                  - generic [ref=e163]: Jon Stewart Doe1
+                - generic:  
+              - generic [ref=e165] [cursor=pointer]:
+                - heading "FOntario" [level=5] [ref=e166]:
+                  - generic [ref=e167]: FOntario
+                - generic:  
+              - generic [ref=e169] [cursor=pointer]:
+                - heading "Jon Stewart Doe" [level=5] [ref=e170]:
+                  - generic [ref=e171]: Jon Stewart Doe
+                - generic:  
+              - generic [ref=e173] [cursor=pointer]:
+                - heading "TesterT" [level=5] [ref=e174]:
+                  - generic [ref=e175]: TesterT
+                - generic:  
+              - generic [ref=e177] [cursor=pointer]:
+                - heading "devtest" [level=5] [ref=e178]:
+                  - generic [ref=e179]: devtest
+                - generic:  
+              - generic [ref=e181] [cursor=pointer]:
+                - heading "Test Pay" [level=5] [ref=e182]:
+                  - generic [ref=e183]: Test Pay
+                - generic:  
+  - generic [ref=e184]:
+    - dialog "New Payment Method":
+      - generic [ref=e185]:
+        - button "Close" [ref=e186] [cursor=pointer]:
+          - generic "Close" [ref=e187]:
+            - generic [ref=e188]: 
+        - generic [ref=e190]: New Payment Method
+        - generic [ref=e193]:
+          - generic [ref=e195]: Payment method*
+          - textbox "Payment method*" [ref=e196]:
+            - /placeholder: Enter payment method
+        - generic [ref=e197]:
+          - button "Cancel" [ref=e198] [cursor=pointer]:
+            - generic [ref=e199]: Cancel
+          - button "Save" [ref=e200] [cursor=pointer]:
+            - generic [ref=e201]: Save
+```

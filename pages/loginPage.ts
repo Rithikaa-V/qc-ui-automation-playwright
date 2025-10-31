@@ -29,12 +29,6 @@ export class LoginPage {
   }
   
 
-  async assertErrorNotification(expectedMessage: string) {
-    const errorLocator = this.page.getByText(expectedMessage, { exact: true });
-    await expect(errorLocator).toContainText(expectedMessage);
-
-  }
-
   getErrorForField(fieldId: string): Locator {
     return this.page.locator(`//input[@id='${fieldId}']/ancestor::div[contains(@class,'_inputFieldWrapper')]/following-sibling::p`);
   }

@@ -16,6 +16,30 @@ export class MetaConfiguration {
         await optionLocator.click();
       }
 
+      async clickActionIcon(page: Page, action: 'edit' | 'delete') {
+        const testId = action === 'edit' ? 'actionEditIcon' : 'actionDeleteIcon';
       
+        const row = page.locator('tr:hover').first(); 
+        await row.hover({ force: true });
+      
+        const iconLocator = page.getByTestId(testId).first();
+      
+        await iconLocator.waitFor({ state: 'visible', timeout: 10000 });
+      
+        await iconLocator.click();
+      }
+
+      async verifySearchResult(page: Page, expectedText: string, shouldExist = true) {
+        const resultLocator = page.getByTestId('actionItemComponent').filter({
+          hasText: new RegExp(expectedText, 'i'),
+        });
+      
+        if (shouldExist) {
+          await expect(resultLocator).toBeVisible({ timeout: 8000 });
+          await expect(resultLocator).toContainText(expectedText);
+        } else {
+          await expect(resultLocator).toHaveCount(0);
+        }
+      }
 
 }

@@ -5,6 +5,8 @@ import { CommonLocators } from '../utils/commonLocators';
 import { HomePage } from "../pages/homePage";
 import { ConfigurationPage } from "../pages/configurationPage";
 import { MetaConfiguration } from "../pages/MetaConfigurationPage";
+import { compileFunction } from "vm";
+import { generateRandomName } from "../utils/randomData";
 
 test('Valid Login', async ({ page }) => {
     const loginPage = new LoginPage(page);
@@ -20,7 +22,7 @@ test('Login with invalid password', async ({ page }) => {
     
     await loginPage.goto(BASE_URL);
     await loginPage.authPage(EMAIL, invalidPassword);
-    await loginPage.assertErrorNotification('Invalid username/password.')
+    await CommonLocators.assertErrorNotification(page, 'Invalid username/password.')
 })
 
 test('Login with invalid email', async ({ page }) => {
@@ -29,7 +31,7 @@ test('Login with invalid email', async ({ page }) => {
     
     await loginPage.goto(BASE_URL);
     await loginPage.authPage(invalidEmail, PASSWORD);
-    await loginPage.assertErrorNotification('Invalid username/password.')
+    await CommonLocators.assertErrorNotification(page, 'Invalid username/password.')
 })
 
 test('Empty email input validation', async ({ page }) => {
@@ -63,7 +65,7 @@ test('Invalid OTP', async ({ page }) => {
     
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, InvalidOTP);
-    await loginPage.assertErrorNotification('Invalid OTP. Please try again')
+    await CommonLocators.assertErrorNotification(page, 'Invalid OTP. Please try again')
 
 })
 
@@ -74,7 +76,7 @@ test('valid email input in forgot password page', async ({ page }) => {
     await loginPage.clickForgotPassword()
     await loginPage.emailInput('superadmin@example.com')
     await CommonLocators.clickButtonByName(page, 'Submit')
-    await loginPage.assertErrorNotification('A password reset link has been sent to your email.')
+    await CommonLocators.assertErrorNotification(page, 'A password reset link has been sent to your email.')
 
 })
 
@@ -87,7 +89,7 @@ test('Unregistered email input in forgot password page', async ({ page }) => {
     await loginPage.clickForgotPassword()
     await loginPage.emailInput(UnregisteredEmail)
     await CommonLocators.clickButtonByName(page, 'Submit')
-    await loginPage.assertErrorNotification('') 
+    await CommonLocators.assertErrorNotification(page,'') 
 
 })
 
@@ -132,7 +134,63 @@ test('Empty input in payment method field in meta page', async ({ page }) => {
 
 })
 
-test.only('Valid input in payment method field in meta page', async ({ page }) => {
+test('verify user can add a new payment method', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const randomName = generateRandomName();
+    
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Payment methods')
+    await CommonLocators.clickButtonByName(page, 'Add Payment Method')
+    await CommonLocators.fillInput(page, 'Payment method' , randomName)
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await CommonLocators.verifySuccessMessage(page, 'New payment method has been added successfully.')
+
+})
+// Incomplete Test case
+// test('Edit action in payment method', async ({ page }) => {
+//     const loginPage = new LoginPage(page);
+//     const homePage = new HomePage(page);
+//     const configurationPage = new ConfigurationPage(page);
+//     const metaConfigurationPage = new MetaConfiguration(page);
+    
+//     await loginPage.goto(BASE_URL);
+//     await loginPage.login(EMAIL, PASSWORD, OTP);
+
+//     await homePage.clickMenuItem('Configurations')
+//     await configurationPage.selectConfigurationItems('Meta')
+//     await metaConfigurationPage.selectMetaOptions('Payment methods')
+
+//     await metaConfigurationPage.clickActionIcon(page, "edit")
+//     await page.pause()
+
+// })
+
+test('Search functionality in payment method page', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Payment methods')
+    await CommonLocators.fillInput(page, 'Search', 'upi')
+    await metaConfigurationPage.verifySearchResult(page, 'upi', true)
+    await metaConfigurationPage.verifySearchResult(page, 'money', false)
+
+})
+
+test('Verify system handles duplicate names in payment method', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
@@ -145,14 +203,11 @@ test.only('Valid input in payment method field in meta page', async ({ page }) =
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Payment methods')
     await CommonLocators.clickButtonByName(page, 'Add Payment Method')
-    await CommonLocators.fillInput(page, 'Year of study' ,'Money')
+    await CommonLocators.fillInput(page, 'Payment method' , 'upi')
     await CommonLocators.clickButtonByName(page, 'save')
+    await CommonLocators.assertErrorNotification(page, 'upi with the same name already exists.')
 
 })
-
-
-
-
 
 
 

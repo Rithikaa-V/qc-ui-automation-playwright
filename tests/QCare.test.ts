@@ -16,16 +16,16 @@ test('Valid Login', async ({ page }) => {
 
 })
 
-test.only('Login with invalid password', async ({ page }) => {
+test('Login with invalid password', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const invalidPassword = '123456'
     
     await loginPage.goto(BASE_URL);
     await loginPage.authPage(EMAIL, invalidPassword);
-    await CommonLocators.assertErrorNotification(page, 'invali@!)@(#')
+    await CommonLocators.assertErrorNotification(page, 'Invalid username/password.')
 })
 
-test.only('Login with invalid email', async ({ page }) => {
+test('Login with invalid email', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const invalidEmail = 'Test@gmail.com'
     
@@ -190,7 +190,7 @@ test('Search functionality in payment method page', async ({ page }) => {
 
 })
 
-test('Verify system automate duplicate names in payment method', async ({ page }) => {
+test('Verify system handles duplicate names in payment method', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
@@ -204,6 +204,7 @@ test('Verify system automate duplicate names in payment method', async ({ page }
     await metaConfigurationPage.selectMetaOptions('Payment methods')
     await CommonLocators.clickButtonByName(page, 'Add Payment Method')
     await CommonLocators.fillInput(page, 'Payment method' , 'upi')
+    await CommonLocators.clickButtonByName(page, 'save')
     await CommonLocators.assertErrorNotification(page, 'upi with the same name already exists.')
 
 })

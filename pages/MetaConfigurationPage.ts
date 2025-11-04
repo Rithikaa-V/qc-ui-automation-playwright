@@ -18,15 +18,12 @@ export class MetaConfiguration {
 
       async clickActionIcon(page: Page, action: 'edit' | 'delete') {
         const testId = action === 'edit' ? 'actionEditIcon' : 'actionDeleteIcon';
-      
-        const row = page.locator('tr:hover').first(); 
-        await row.hover({ force: true });
-      
         const iconLocator = page.getByTestId(testId).first();
-      
-        await iconLocator.waitFor({ state: 'visible', timeout: 10000 });
-      
-        await iconLocator.click();
+        await page.waitForTimeout(1000);
+        const actionContainer = page.locator('[data-testid="actionItemComponent"]').first();
+        await actionContainer.hover({ force: true });
+        await iconLocator.waitFor({ state: 'visible', timeout: 8000 });
+        await iconLocator.click({ force: true });
       }
 
       async verifySearchResult(page: Page, expectedText: string, shouldExist = true) {

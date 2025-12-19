@@ -8,10 +8,11 @@ import { MetaConfiguration } from "../pages/MetaConfigurationPage";
 import { compileFunction } from "vm";
 import { generateRandomName } from "../utils/randomData";
 import { asyncWrapProviders } from "async_hooks";
+import { pricingConfiguration } from "../pages/pricingConfigurationPage";
 
 test('Valid Login', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -20,7 +21,7 @@ test('Valid Login', async ({ page }) => {
 test('Login with invalid password', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const invalidPassword = '123456'
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.authPage(EMAIL, invalidPassword);
     await CommonLocators.assertErrorNotification(page, 'Invalid username/password.')
@@ -29,7 +30,7 @@ test('Login with invalid password', async ({ page }) => {
 test('Login with invalid email', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const invalidEmail = 'Test@gmail.com'
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.authPage(invalidEmail, PASSWORD);
     await CommonLocators.assertErrorNotification(page, 'Invalid username/password.')
@@ -37,7 +38,7 @@ test('Login with invalid email', async ({ page }) => {
 
 test('Empty email input validation', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.authPage('', PASSWORD);
     await CommonLocators.assertFieldError(page, 'Email', 'Email is required')
@@ -46,7 +47,7 @@ test('Empty email input validation', async ({ page }) => {
 test('Invalid email input validation', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const invalidEmail = 'invalidEMAIL.com'
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.authPage(invalidEmail, PASSWORD);
     await CommonLocators.assertFieldError(page, 'Email', 'Invalid email format')
@@ -54,7 +55,7 @@ test('Invalid email input validation', async ({ page }) => {
 
 test('Empty password input validation', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.authPage(EMAIL, '');
     await CommonLocators.assertFieldError(page, 'Password', 'Password is required')
@@ -63,7 +64,7 @@ test('Empty password input validation', async ({ page }) => {
 test('Invalid OTP', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const InvalidOTP = '123456'
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, InvalidOTP);
     await CommonLocators.assertErrorNotification(page, 'Invalid OTP. Please try again')
@@ -72,7 +73,7 @@ test('Invalid OTP', async ({ page }) => {
 
 test('valid email input in forgot password page', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.clickForgotPassword()
     await loginPage.emailInput('superadmin@example.com')
@@ -85,18 +86,18 @@ test('valid email input in forgot password page', async ({ page }) => {
 test('Unregistered email input in forgot password page', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const UnregisteredEmail = 'Unregisteredemail@gmail.co'
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.clickForgotPassword()
     await loginPage.emailInput(UnregisteredEmail)
     await CommonLocators.clickButtonByName(page, 'Submit')
-    await CommonLocators.assertErrorNotification(page,'') 
+    await CommonLocators.assertErrorNotification(page, '')
 
 })
 
 test('Empty email input forgot password', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.clickForgotPassword()
     await loginPage.emailInput('')
@@ -108,7 +109,7 @@ test('Empty email input forgot password', async ({ page }) => {
 test('Invalid email input in forgot password', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const invalidEmail = 'invalidEMAIL.com'
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.clickForgotPassword()
     await loginPage.emailInput(invalidEmail)
@@ -122,7 +123,7 @@ test('Empty input in payment method field in meta page', async ({ page }) => {
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -141,7 +142,7 @@ test('verify user can add a new payment method', async ({ page }) => {
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
     const randomName = generateRandomName();
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -149,7 +150,7 @@ test('verify user can add a new payment method', async ({ page }) => {
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Payment methods')
     await CommonLocators.clickButtonByName(page, 'Add Payment Method')
-    await CommonLocators.fillInput(page, 'Payment method' , randomName)
+    await CommonLocators.fillInput(page, 'Payment method', randomName)
     await CommonLocators.clickButtonByName(page, 'Save')
     await CommonLocators.verifySuccessMessage(page, 'New payment method has been added successfully.')
 
@@ -161,25 +162,15 @@ test('Verify successful Edit action in payment method', async ({ page }) => {
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
     const randomName = generateRandomName();
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
-
-// Incomplete Test case
-// test('Edit action in payment method', async ({ page }) => {
-//     const loginPage = new LoginPage(page);
-//     const homePage = new HomePage(page);
-//     const configurationPage = new ConfigurationPage(page);
-//     const metaConfigurationPage = new MetaConfiguration(page);
-    
-//     await loginPage.goto(BASE_URL);
-//     await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Payment methods')
     await metaConfigurationPage.clickActionIcon(page, "edit")
-    await CommonLocators.fillInput(page, 'Payment method' , randomName)
+    await CommonLocators.fillInput(page, 'Payment method', randomName)
     await CommonLocators.clickButtonByName(page, "Save ")
     await CommonLocators.assertErrorNotification(page, 'Payment method has been updated successfully.')
 
@@ -190,7 +181,7 @@ test('Search functionality in payment method page', async ({ page }) => {
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -208,7 +199,7 @@ test('Verify system handles duplicate names in payment method', async ({ page })
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -216,7 +207,7 @@ test('Verify system handles duplicate names in payment method', async ({ page })
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Payment methods')
     await CommonLocators.clickButtonByName(page, 'Add Payment Method')
-    await CommonLocators.fillInput(page, 'Payment method' , 'upi')
+    await CommonLocators.fillInput(page, 'Payment method', 'upi')
     await CommonLocators.clickButtonByName(page, 'save')
     await CommonLocators.assertErrorNotification(page, 'upi with the same name already exists.')
 
@@ -227,7 +218,7 @@ test('Verify empty field in Edit action in payment method', async ({ page }) => 
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -235,9 +226,9 @@ test('Verify empty field in Edit action in payment method', async ({ page }) => 
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Payment methods')
     await metaConfigurationPage.clickActionIcon(page, "edit")
-    await CommonLocators.fillInput(page, 'Payment method','')
+    await CommonLocators.fillInput(page, 'Payment method', '')
     await CommonLocators.clickButtonByName(page, 'Save')
-    await CommonLocators.assertFieldError(page, 'payment method','Payment method name cannot be empty')
+    await CommonLocators.assertFieldError(page, 'payment method', 'Payment method name cannot be empty')
 
 })
 
@@ -246,7 +237,7 @@ test('verify successful deletion of payment method', async ({ page }) => {
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -267,7 +258,7 @@ test('Verify successful Edit action in Institutions', async ({ page }) => {
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
     const randomName = generateRandomName();
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -275,7 +266,7 @@ test('Verify successful Edit action in Institutions', async ({ page }) => {
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Institutions')
     await metaConfigurationPage.clickActionIcon(page, "edit")
-    await CommonLocators.fillInput(page, 'Institution' , randomName)
+    await CommonLocators.fillInput(page, 'Institution', randomName)
     await CommonLocators.clickButtonByName(page, "Save ")
     await CommonLocators.assertErrorNotification(page, 'Institution has been updated successfully.')
 
@@ -287,7 +278,7 @@ test('verify successful deletion of Institution', async ({ page }) => {
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -310,7 +301,7 @@ test('Verify successful Edit action in Payment records', async ({ page }) => {
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
     const randomName = generateRandomName();
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -318,7 +309,7 @@ test('Verify successful Edit action in Payment records', async ({ page }) => {
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Payment records')
     await metaConfigurationPage.clickActionIcon(page, "edit")
-    await CommonLocators.fillInput(page, 'Payment record' , randomName)
+    await CommonLocators.fillInput(page, 'Payment record', randomName)
     await CommonLocators.clickButtonByName(page, "Save ")
     await CommonLocators.assertErrorNotification(page, 'Payment record has been updated successfully.')
 
@@ -329,7 +320,7 @@ test('verify successful deletion of Payment records', async ({ page }) => {
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -350,7 +341,7 @@ test('Verify successful Edit action in Ticket Issue', async ({ page }) => {
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
     const randomName = generateRandomName();
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -358,7 +349,7 @@ test('Verify successful Edit action in Ticket Issue', async ({ page }) => {
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Ticket Issue')
     await metaConfigurationPage.clickActionIcon(page, "edit")
-    await CommonLocators.fillInput(page, 'ticket issue' , randomName)
+    await CommonLocators.fillInput(page, 'ticket issue', randomName)
     await CommonLocators.clickButtonByName(page, "Save ")
     await CommonLocators.assertErrorNotification(page, 'Ticket issue has been updated successfully.')
 
@@ -370,7 +361,7 @@ test('verify successful deletion of Ticket issue', async ({ page }) => {
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -391,7 +382,7 @@ test('Verify successful Edit action in Ticket location', async ({ page }) => {
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
     const randomName = generateRandomName();
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -399,7 +390,7 @@ test('Verify successful Edit action in Ticket location', async ({ page }) => {
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Ticket location')
     await metaConfigurationPage.clickActionIcon(page, "edit")
-    await CommonLocators.fillInput(page, 'ticket location' , randomName)
+    await CommonLocators.fillInput(page, 'ticket location', randomName)
     await CommonLocators.clickButtonByName(page, "Save ")
     await CommonLocators.assertErrorNotification(page, 'Ticket location has been updated successfully.')
 
@@ -411,7 +402,7 @@ test('verify successful deletion of ticket location', async ({ page }) => {
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -432,7 +423,7 @@ test('Verify successful Edit action in year of study', async ({ page }) => {
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
     const randomName = generateRandomName();
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -440,7 +431,7 @@ test('Verify successful Edit action in year of study', async ({ page }) => {
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Year of study')
     await metaConfigurationPage.clickActionIcon(page, "edit")
-    await CommonLocators.fillInput(page, 'Year of study' , randomName)
+    await CommonLocators.fillInput(page, 'Year of study', randomName)
     await CommonLocators.clickButtonByName(page, "Save ")
     await CommonLocators.assertErrorNotification(page, 'Year of study has been updated successfully.')
 
@@ -451,7 +442,7 @@ test('verify successful deletion of year of study', async ({ page }) => {
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -721,7 +712,6 @@ test('verify successful deletion of year of study', async ({ page }) => {
 
 
 
- 
 
 
 
@@ -729,32 +719,38 @@ test('verify successful deletion of year of study', async ({ page }) => {
 
 
 
-test('Verify user can add a new institution', async ({page}) => {
+
+
+
+// Institution
+
+test('Verify user can add a new institution', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
+    const randomName = generateRandomName();
 
     await loginPage.goto(BASE_URL);
-    await loginPage.login(EMAIL,PASSWORD,OTP);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
     await metaConfigurationPage.selectMetaOptions('Institutions')
     await CommonLocators.clickButtonByName(page, 'Add Institution')
-    await CommonLocators.fillInput(page, 'Institution', 'QA University')
+    await CommonLocators.fillInput(page, 'Institution', randomName)
     await CommonLocators.clickButtonByName(page, 'Save')
-    await CommonLocators.verifySuccessMessage(page,'New institution has been added successfully.')
+    await CommonLocators.verifySuccessMessage(page, 'New institution has been added successfully.')
 })
 
-test('Verify search functionality in Instituitions page', async({page}) => {
+test('Verify search functionality in Instituitions page', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
 
     await loginPage.goto(BASE_URL);
-    await loginPage.login(EMAIL,PASSWORD,OTP);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -768,14 +764,14 @@ test('Verify search functionality in Instituitions page', async({page}) => {
 
 })
 
-test('Validate mandatory field validation during institution creation', async({page}) => {
+test('Validate mandatory field validation during institution creation', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
 
     await loginPage.goto(BASE_URL)
-    await loginPage.login(EMAIL,PASSWORD,OTP)
+    await loginPage.login(EMAIL, PASSWORD, OTP)
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -791,7 +787,7 @@ test('Verify system handles duplicate names in Instituitions', async ({ page }) 
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -805,7 +801,9 @@ test('Verify system handles duplicate names in Instituitions', async ({ page }) 
 
 })
 
-test('Verify user can add a new payment record', async ({page}) => {
+//Payments
+
+test('Verify user can add a new payment record', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
@@ -813,7 +811,7 @@ test('Verify user can add a new payment record', async ({page}) => {
     const randomName = generateRandomName();
 
     await loginPage.goto(BASE_URL);
-    await loginPage.login(EMAIL,PASSWORD,OTP);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -821,17 +819,17 @@ test('Verify user can add a new payment record', async ({page}) => {
     await CommonLocators.clickButtonByName(page, 'Add Payment Record')
     await CommonLocators.fillInput(page, 'Payment record', randomName)
     await CommonLocators.clickButtonByName(page, 'Save')
-    await CommonLocators.verifySuccessMessage(page,'New payment record has been added successfully.')
+    await CommonLocators.verifySuccessMessage(page, 'New payment record has been added successfully.')
 })
 
-test('Verify search functionality in Payment records page', async({page}) => {
+test('Verify search functionality in Payment records page', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
 
     await loginPage.goto(BASE_URL);
-    await loginPage.login(EMAIL,PASSWORD,OTP);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -845,14 +843,14 @@ test('Verify search functionality in Payment records page', async({page}) => {
 
 })
 
-test('Validate mandatory field validation during payment record creation', async({page}) => {
+test('Validate mandatory field validation during payment record creation', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
 
     await loginPage.goto(BASE_URL)
-    await loginPage.login(EMAIL,PASSWORD,OTP)
+    await loginPage.login(EMAIL, PASSWORD, OTP)
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -868,7 +866,7 @@ test('Verify system handles duplicate names in Payment record', async ({ page })
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -882,7 +880,9 @@ test('Verify system handles duplicate names in Payment record', async ({ page })
 
 })
 
-test('Verify user can add a new ticket issue', async ({page}) => {
+//Tickets
+
+test('Verify user can add a new ticket issue', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
@@ -890,7 +890,7 @@ test('Verify user can add a new ticket issue', async ({page}) => {
     const randomName = generateRandomName();
 
     await loginPage.goto(BASE_URL);
-    await loginPage.login(EMAIL,PASSWORD,OTP);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -898,17 +898,17 @@ test('Verify user can add a new ticket issue', async ({page}) => {
     await CommonLocators.clickButtonByName(page, 'Add Ticket Issue')
     await CommonLocators.fillInput(page, 'Ticket Issue', randomName)
     await CommonLocators.clickButtonByName(page, 'Save')
-    await CommonLocators.verifySuccessMessage(page,'New ticket issue has been added successfully.')
+    await CommonLocators.verifySuccessMessage(page, 'New ticket issue has been added successfully.')
 })
 
-test('Verify search functionality in Ticket issue page', async({page}) => {
+test('Verify search functionality in Ticket issue page', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
 
     await loginPage.goto(BASE_URL);
-    await loginPage.login(EMAIL,PASSWORD,OTP);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -922,14 +922,14 @@ test('Verify search functionality in Ticket issue page', async({page}) => {
 
 })
 
-test('Validate mandatory field validation during ticket issue creation', async({page}) => {
+test('Validate mandatory field validation during ticket issue creation', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
 
     await loginPage.goto(BASE_URL)
-    await loginPage.login(EMAIL,PASSWORD,OTP)
+    await loginPage.login(EMAIL, PASSWORD, OTP)
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -945,7 +945,7 @@ test('Verify system handles duplicate names in ticket issue', async ({ page }) =
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -959,7 +959,7 @@ test('Verify system handles duplicate names in ticket issue', async ({ page }) =
 
 })
 
-test('Verify user can add a new ticket location', async ({page}) => {
+test('Verify user can add a new ticket location', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
@@ -967,7 +967,7 @@ test('Verify user can add a new ticket location', async ({page}) => {
     const randomName = generateRandomName();
 
     await loginPage.goto(BASE_URL);
-    await loginPage.login(EMAIL,PASSWORD,OTP);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -975,17 +975,17 @@ test('Verify user can add a new ticket location', async ({page}) => {
     await CommonLocators.clickButtonByName(page, 'Add Ticket Location')
     await CommonLocators.fillInput(page, 'Ticket location', randomName)
     await CommonLocators.clickButtonByName(page, 'Save')
-    await CommonLocators.verifySuccessMessage(page,'New Ticket Location has been added successfully.')
+    await CommonLocators.verifySuccessMessage(page, 'New Ticket Location has been added successfully.')
 })
 
-test('Verify search functionality in Ticket location page', async({page}) => {
+test('Verify search functionality in Ticket location page', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
 
     await loginPage.goto(BASE_URL);
-    await loginPage.login(EMAIL,PASSWORD,OTP);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -999,14 +999,14 @@ test('Verify search functionality in Ticket location page', async({page}) => {
 
 })
 
-test('Validate mandatory field validation during ticket location creation', async({page}) => {
+test('Validate mandatory field validation during ticket location creation', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
 
     await loginPage.goto(BASE_URL)
-    await loginPage.login(EMAIL,PASSWORD,OTP)
+    await loginPage.login(EMAIL, PASSWORD, OTP)
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -1022,7 +1022,7 @@ test('Verify system handles duplicate names in ticket location', async ({ page }
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -1036,7 +1036,9 @@ test('Verify system handles duplicate names in ticket location', async ({ page }
 
 })
 
-test('Verify user can add a new year of study', async ({page}) => {
+//Year of study
+
+test('Verify user can add a new year of study', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
@@ -1044,7 +1046,7 @@ test('Verify user can add a new year of study', async ({page}) => {
     const randomName = generateRandomName();
 
     await loginPage.goto(BASE_URL);
-    await loginPage.login(EMAIL,PASSWORD,OTP);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -1052,17 +1054,17 @@ test('Verify user can add a new year of study', async ({page}) => {
     await CommonLocators.clickButtonByName(page, 'Add Year of Study')
     await CommonLocators.fillInput(page, 'Year of study', randomName)
     await CommonLocators.clickButtonByName(page, 'Save')
-    await CommonLocators.verifySuccessMessage(page,'New year of study has been added successfully.')
+    await CommonLocators.verifySuccessMessage(page, 'New year of study has been added successfully.')
 })
 
-test('Verify search functionality in year of study page', async({page}) => {
+test('Verify search functionality in year of study page', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
 
     await loginPage.goto(BASE_URL);
-    await loginPage.login(EMAIL,PASSWORD,OTP);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -1076,14 +1078,14 @@ test('Verify search functionality in year of study page', async({page}) => {
 
 })
 
-test('Validate mandatory field validation during year of study creation', async({page}) => {
+test('Validate mandatory field validation during year of study creation', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
 
     await loginPage.goto(BASE_URL)
-    await loginPage.login(EMAIL,PASSWORD,OTP)
+    await loginPage.login(EMAIL, PASSWORD, OTP)
 
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Meta')
@@ -1099,7 +1101,7 @@ test('Verify system handles duplicate names in year of study', async ({ page }) 
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
     const metaConfigurationPage = new MetaConfiguration(page);
-    
+
     await loginPage.goto(BASE_URL);
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
@@ -1113,5 +1115,325 @@ test('Verify system handles duplicate names in year of study', async ({ page }) 
 
 })
 
+//Pricing config module
 
+test('verify user can add a new pricing plan', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+    const randomName = generateRandomName();
 
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickButtonByName(page, 'Add Pricing Plan')
+    await CommonLocators.fillInput(page, 'Plan Name', randomName)
+    await CommonLocators.selectFoundation(page, 'Foundation', 'Business')
+    const startDate = new Date();
+    await CommonLocators.selectStartDate(page, 'Start Date', startDate);
+    await CommonLocators.selectEndDate(page, 'End Date', startDate, true);
+    await CommonLocators.selectBuilding(page, 'FRS Building')
+    await CommonLocators.selectRoomType(page, 'NRB')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000);
+    await CommonLocators.verifySuccessMessage(page, 'New Pricing Plan has been added successfully')
+})
+
+test('Validate mandatory field validation during pricing plan creation', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL)
+    await loginPage.login(EMAIL, PASSWORD, OTP)
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickButtonByName(page, 'Add Pricing Plan')
+    await CommonLocators.fillInput(page, 'Plan Name', '')
+    await CommonLocators.selectFoundation(page, 'Foundation', 'Business')
+    const startDate = new Date();
+    await CommonLocators.selectStartDate(page, 'Start Date', startDate);
+    await CommonLocators.selectEndDate(page, 'End Date', startDate, true);
+    await CommonLocators.selectBuilding(page, 'FRS Building')
+    await CommonLocators.selectRoomType(page, 'NRB')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await CommonLocators.assertErrorNotification(page, 'This field is required')
+})
+
+test('Verify system handles duplicate names in pricing plan', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickButtonByName(page, 'Add Pricing Plan')
+    await CommonLocators.fillInput(page, 'Plan Name', '')
+    await CommonLocators.selectFoundation(page, 'Foundation', 'Business')
+    const startDate = new Date();
+    await CommonLocators.selectStartDate(page, 'Start Date', startDate);
+    await CommonLocators.selectEndDate(page, 'End Date', startDate, true);
+    await CommonLocators.selectBuilding(page, 'FRS Building')
+    await CommonLocators.selectRoomType(page, 'NRB')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await CommonLocators.assertErrorNotification(page, 'This field is required')
+
+})
+
+test('validate whether the system restricts to select the same start date and end date', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+    const randomName = generateRandomName();
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickButtonByName(page, 'Add Pricing Plan')
+    await CommonLocators.fillInput(page, 'Plan Name', randomName)
+    await CommonLocators.selectFoundation(page, 'Foundation', 'Business')
+    const startDate = new Date();
+    await CommonLocators.selectStartDate(page, 'Start Date', startDate);
+    await CommonLocators.selectEndDate(page, 'End Date', startDate, false);
+    await CommonLocators.selectBuilding(page, 'FRS Building')
+    await CommonLocators.selectRoomType(page, 'NRB')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000);
+    await CommonLocators.assertErrorNotification(page, 'End date must be after start date')
+})
+
+test('verify the valid building and room type selection', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+    const randomName = generateRandomName();
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickButtonByName(page, 'Add Pricing Plan')
+    await CommonLocators.fillInput(page, 'Plan Name', randomName)
+    await CommonLocators.selectFoundation(page, 'Foundation', 'Business')
+    const startDate = new Date();
+    await CommonLocators.selectStartDate(page, 'Start Date', startDate);
+    await CommonLocators.selectEndDate(page, 'End Date', startDate, true);
+    await CommonLocators.selectBuilding(page, 'FRS Building')
+    await CommonLocators.selectRoomType(page, 'NRB')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000);
+    await CommonLocators.verifySuccessMessage(page, 'New Pricing Plan has been added successfully')
+    await pricingConfigurationPage.verifyPricingPlanValues(randomName, 'FRS Building', 'NRB');
+    await pricingConfigurationPage.clickPricingPlanByName(randomName);
+})
+
+test('verify the detailed view page of a pricing plan', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickFirstPricingPlan();
+    await pricingConfigurationPage.verifyPricingPlanDetailFieldsWithValues();
+})
+
+test('verify the edit action of a pricing plan', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickFirstPricingPlan();
+    await pricingConfigurationPage.clickEditIcon(page)
+    await page.getByLabel('Deposit').fill('');
+    await CommonLocators.fillInput(page, 'Deposit', '10.65')
+    await page.getByLabel('Rent').fill('');
+    await CommonLocators.fillInput(page, 'Rent', '10.65')
+    await page.getByLabel('Cleaning Charges').fill('');
+    await CommonLocators.fillInput(page, 'Cleaning Charges', '10.65')
+    await CommonLocators.clickButtonByName(page, "Save ")
+    await CommonLocators.verifySuccessMessage(page, 'Pricing Detail has been updated successfully')
+
+})
+
+test('verify the edit of a pricing plan with invalid values', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickFirstPricingPlan();
+    await pricingConfigurationPage.clickEditIcon(page)
+    await page.getByLabel('Deposit').fill('');
+    await CommonLocators.fillInput(page, 'Deposit', 'hello')
+    await CommonLocators.clickButtonByName(page, "Save ")
+    await CommonLocators.assertErrorNotification(page, 'Maximum of 8 digits and only 2 decimal places allowed')
+    await page.getByLabel('Rent').fill('');
+    await CommonLocators.fillInput(page, 'Rent', 'hello')
+    await CommonLocators.clickButtonByName(page, "Save ")
+    await CommonLocators.assertErrorNotification(page, 'Maximum of 8 digits and only 2 decimal places allowed')
+    await page.getByLabel('Cleaning Charges').fill('');
+    await CommonLocators.fillInput(page, 'Cleaning Charges', 'hello')
+    await CommonLocators.clickButtonByName(page, "Save ")
+    await CommonLocators.assertErrorNotification(page, 'Maximum of 8 digits and only 2 decimal places allowed')
+
+})
+
+test('verify the export CSV of a pricing plan', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickFirstPricingPlan();
+    await pricingConfigurationPage.clickButtonByName(page, 'Export CSV')
+    await CommonLocators.assertErrorNotification(page, 'Template Downloaded Successfully')
+
+})
+
+test('verify the upload CSV in a pricing plan', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickFirstPricingPlan();
+    await pricingConfigurationPage.clickButtonByName(page, 'Upload')
+    const csvFilePath = '/Users/rithikaa/Qcare UI Automation/test-files/valid values(in).csv';
+    await pricingConfigurationPage.uploadCSV(page, csvFilePath);
+    await page.waitForTimeout(1000);
+    await pricingConfigurationPage.clickButtonByName(page, 'Continue')
+    await CommonLocators.verifySuccessMessage(page, 'Files are uploaded Sucessfully')
+
+})
+
+test('validate invalid file type in CSV upload', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickFirstPricingPlan();
+    await pricingConfigurationPage.clickButtonByName(page, 'Upload')
+    const csvFilePath = '/Users/rithikaa/Qcare UI Automation/test-files/BillOfLading.pdf';
+    await pricingConfigurationPage.uploadCSV(page, csvFilePath);
+    await page.waitForTimeout(1000);
+    await pricingConfigurationPage.verifyUploadErrorTitle(page)
+})
+
+test('validate large file size error in CSV upload', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickFirstPricingPlan();
+    await pricingConfigurationPage.clickButtonByName(page, 'Upload')
+    const csvFilePath = '/Users/rithikaa/Qcare UI Automation/test-files/sample_11mb.csv';
+    await pricingConfigurationPage.uploadCSV(page, csvFilePath);
+    await page.waitForTimeout(1000);
+    await pricingConfigurationPage.verifyUploadErrorTitle(page)
+})
+
+test('validate empty values in CSV upload', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickFirstPricingPlan();
+    await pricingConfigurationPage.clickButtonByName(page, 'Upload')
+    const csvFilePath = '/Users/rithikaa/Qcare UI Automation/test-files/empty values(in).csv';
+    await pricingConfigurationPage.uploadCSV(page, csvFilePath);
+    await page.waitForTimeout(1000);
+    await pricingConfigurationPage.clickButtonByName(page, 'Continue')
+    await pricingConfigurationPage.verifyUploadErrorTitle(page)
+})
+
+test('validate file with invalid values in CSV upload', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await pricingConfigurationPage.clickFirstPricingPlan();
+    await pricingConfigurationPage.clickButtonByName(page, 'Upload')
+    const csvFilePath = '/Users/rithikaa/Qcare UI Automation/test-files/invalid values(in).csv';
+    await pricingConfigurationPage.uploadCSV(page, csvFilePath);
+    await page.waitForTimeout(1000);
+    await pricingConfigurationPage.clickButtonByName(page, 'Continue')
+    await pricingConfigurationPage.verifyUploadErrorTitle(page)
+})
+
+test('verify pagination controls in pricing config', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const pricingConfigurationPage = new pricingConfiguration(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Pricing')
+    await CommonLocators.verifyPagination(page);
+})

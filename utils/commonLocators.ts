@@ -48,35 +48,20 @@ export class CommonLocators {
     await expect(errorLocator).toContainText(expectedMessage);
   }
 
-  static async selectFoundation(page: Page, fieldLabel: string, optionText: string) {
-    const label = page.locator('label, div', {
-      hasText: new RegExp(`^${fieldLabel}\\*?$`, 'i'),
-    });
-    await expect(label.first()).toBeVisible();
-    const dropdown = label.first().locator('xpath=following::*[contains(@class,"ant-select")][1]');
-    await dropdown.locator('.ant-select-selector').click();
-    const option = page.locator('.ant-select-dropdown').locator('.ant-select-item-option').filter({ hasText: optionText });
-    await expect(option).toBeVisible();
-    await option.click();
-    await expect(dropdown).toContainText(optionText);
-  }
-
-  static async selectStartDate(page: Page, fieldLabelOrName: string, startDate: Date = new Date()) {
+  static async selectEndDate(page: Page, fieldLabelOrName: string, isValid: boolean = true) {
     const input = await this.getDateInput(page, fieldLabelOrName);
     await expect(input).toBeEnabled();
     await input.click();
-    await this.selectDateFromCalendar(page, startDate);
+    const index = isValid ? 1 : 0;
+    await this.selectDateFromCalendar(page, index);
   }
 
-  static async selectEndDate(page: Page, fieldLabelOrName: string, startDate: Date, positive: boolean = true) {
-    const endDate = new Date(startDate);
-    if (positive) {
-      endDate.setDate(endDate.getDate() + 1);
-    }
+  static async selectStartDate(page: Page, fieldLabelOrName: string, isValid: boolean = true) {
     const input = await this.getDateInput(page, fieldLabelOrName);
     await expect(input).toBeEnabled({ timeout: 5000 });
     await input.click();
-    await this.selectDateFromCalendar(page, endDate);
+    const index = isValid ? 0 : 2;
+    await this.selectDateFromCalendar(page, index);
   }
 
   private static async getDateInput(page: Page, labelOrName: string): Promise<Locator> {
@@ -93,55 +78,14 @@ export class CommonLocators {
     throw new Error(`Date input not found: ${labelOrName}`);
   }
 
-  private static async selectDateFromCalendar(page: Page, date: Date) {
-    const day = date.getDate().toString();
+  private static async selectDateFromCalendar(page: Page, index: number) {
     await page.waitForSelector('.ant-picker-dropdown', { state: 'attached' });
     const calendar = page.locator('.ant-picker-dropdown').filter({ has: page.locator('table') }).last();
     await expect(calendar).toBeVisible();
-    await calendar.locator('td.ant-picker-cell:not(.ant-picker-cell-disabled)', { hasText: new RegExp(`^${day}$`) }).first().click();
-  }
 
-  static async selectBuilding(page: Page, buildingNames: string | string[]) {
-    const values = Array.isArray(buildingNames) ? buildingNames : [buildingNames];
-    const dropdown = page.locator('div.ant-select-selector:has(input#building)');
-    await expect(dropdown).toBeVisible();
-    await dropdown.click();
-    for (const value of values) {
-      const option = page.locator(
-        '.ant-select-dropdown:not(.ant-select-dropdown-hidden) ' +
-        '.ant-select-item-option',
-        { hasText: value }
-      );
-      await expect(option).toBeVisible();
-      if (!(await option.getAttribute('aria-selected') === 'true')) {
-        await option.click();
-      }
-    }
-    const dropdownContent = page.locator('.ant-select-dropdown:not(.ant-select-dropdown-hidden)');
-    if (await dropdownContent.isVisible()) {
-      await page.keyboard.press('Escape');
-    }
-  }
-
-  static async selectRoomType(page: Page, roomTypes: string | string[]) {
-    const values = Array.isArray(roomTypes) ? roomTypes : [roomTypes];
-    const dropdown = page.locator('div.ant-select-selector:has(input#roomType)');
-    await expect(dropdown).toBeVisible();
-    await dropdown.click();
-    for (const value of values) {
-      const option = page.locator(
-        '.ant-select-dropdown:not(.ant-select-dropdown-hidden) .ant-select-item-option',
-        { hasText: value }
-      );
-      await expect(option).toBeVisible();
-      if (!(await option.getAttribute('aria-selected') === 'true')) {
-        await option.click();
-      }
-    }
-    const dropdownContent = page.locator('.ant-select-dropdown:not(.ant-select-dropdown-hidden)');
-    if (await dropdownContent.isVisible()) {
-      await page.keyboard.press('Escape');
-    }
+    const cells = calendar.locator('td.ant-picker-cell:not(.ant-picker-cell-disabled)');
+    await expect(cells.nth(index)).toBeVisible(); // Ensure the cell at index exists
+    await cells.nth(index).click();
   }
 
   static async verifyPagination(page: Page) {
@@ -171,6 +115,20 @@ export class CommonLocators {
 
     await page1.click();
     await expect(page1).toHaveClass(/ant-pagination-item-active/);
+  }
+
+  static async getFirstListItemTitle(page: Page): Promise<string> {
+    // Using actionItemComponent as used in verifySearchResult
+    const listItems = page.getByTestId('actionItemComponent');
+    await expect(listItems.first()).toBeVisible({ timeout: 10000 });
+
+    const title = listItems.first().locator(
+      '[data-testid="actionItemTitle"] span'
+    );
+
+    await expect(title).toBeVisible();
+
+    return (await title.textContent())?.trim() || '';
   }
 
 }

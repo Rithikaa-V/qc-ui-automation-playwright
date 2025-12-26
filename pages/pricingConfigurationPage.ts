@@ -40,6 +40,87 @@ export class pricingConfiguration {
     }
   }
 
+  async selectFoundation(page: Page, fieldLabel: string, optionText: string) {
+    const label = page.locator('label, div', {
+      hasText: new RegExp(`^${fieldLabel}\\*?$`, 'i'),
+    });
+    await expect(label.first()).toBeVisible();
+    const dropdown = label.first().locator('xpath=following::*[contains(@class,"ant-select")][1]');
+    await dropdown.locator('.ant-select-selector').click();
+    const option = page.locator('.ant-select-dropdown').locator('.ant-select-item-option').filter({ hasText: optionText });
+    await expect(option).toBeVisible();
+    await option.click();
+    await expect(dropdown).toContainText(optionText);
+  }
+
+  async selectBuilding(page: Page, buildingName?: string) {
+    const input = page.locator('input#building');
+    const dropdown = page.locator('div.ant-select-selector:has(input#building)');
+    await expect(dropdown).toBeVisible();
+    await dropdown.click();
+
+    const listId = await input.getAttribute('aria-controls');
+    const options = page.locator(`#${listId} .ant-select-item-option:not(.ant-select-item-option-disabled)`);
+
+    if (buildingName) {
+      const option = options.filter({ hasText: new RegExp(`^${buildingName}$`, 'i') });
+      if (await option.count() === 0) {
+        const partialOption = options.filter({ hasText: buildingName });
+        await expect(partialOption.first()).toBeVisible({ timeout: 5000 });
+        await partialOption.first().click({ force: true });
+      } else {
+        await expect(option).toBeVisible({ timeout: 5000 });
+        await option.click({ force: true });
+      }
+      await page.keyboard.press('Escape');
+    } else {
+      const firstOption = options.first();
+      await expect(firstOption).toBeVisible({ timeout: 10000 });
+      await firstOption.scrollIntoViewIfNeeded();
+
+      if (await firstOption.getAttribute('aria-selected') !== 'true') {
+        await firstOption.click({ force: true });
+      }
+
+      await page.keyboard.press('Escape');
+    }
+  }
+
+  async selectRoomType(page: Page, roomTypeName?: string) {
+    const input = page.locator('input#roomType');
+    const dropdown = page.locator('div.ant-select-selector:has(input#roomType)');
+    await expect(dropdown).toBeVisible();
+    await dropdown.click();
+
+    const listId = await input.getAttribute('aria-controls');
+    const options = page.locator(`#${listId} .ant-select-item-option:not(.ant-select-item-option-disabled)`);
+
+    if (roomTypeName) {
+      const option = options.filter({ hasText: new RegExp(`^${roomTypeName}$`, 'i') });
+      if (await option.count() === 0) {
+        const partialOption = options.filter({ hasText: roomTypeName });
+        await expect(partialOption.first()).toBeVisible({ timeout: 5000 });
+        await partialOption.first().click({ force: true });
+      } else {
+        await expect(option).toBeVisible({ timeout: 5000 });
+        await option.click({ force: true });
+      }
+      await page.keyboard.press('Escape');
+    } else {
+      const firstOption = options.first();
+      await expect(firstOption).toBeVisible({ timeout: 10000 });
+      await firstOption.scrollIntoViewIfNeeded();
+
+      if (await firstOption.getAttribute('aria-selected') !== 'true') {
+        await firstOption.click({ force: true });
+      }
+
+      await page.keyboard.press('Escape');
+    }
+  }
+
+
+
   async clickPricingPlanByName(planName: string) {
     const row = this.page.locator('tr.ant-table-row', {
       has: this.page.locator('span._planNameText_1uhdx_106', {

@@ -9,6 +9,7 @@ import { compileFunction } from "vm";
 import { generateRandomName } from "../utils/randomData";
 import { asyncWrapProviders } from "async_hooks";
 import { pricingConfiguration } from "../pages/pricingConfigurationPage";
+import { discount } from "../pages/discountPage";
 
 test('Valid Login', async ({ page }) => {
     const loginPage = new LoginPage(page);
@@ -452,8 +453,10 @@ test('verify successful deletion of year of study', async ({ page }) => {
     await metaConfigurationPage.clickActionIcon(page, "delete")
     await CommonLocators.clickButtonByName(page, 'Confirm')
     await CommonLocators.assertErrorNotification(page, 'Year of study has been deleted successfully')
-
 })
+
+// testcase for edit and delete needs to be added - need clarification on the requirement and testcase
+
 
 
 
@@ -1131,12 +1134,11 @@ test('verify user can add a new pricing plan', async ({ page }) => {
     await configurationPage.selectConfigurationItems('Pricing')
     await pricingConfigurationPage.clickButtonByName(page, 'Add Pricing Plan')
     await CommonLocators.fillInput(page, 'Plan Name', randomName)
-    await CommonLocators.selectFoundation(page, 'Foundation', 'Business')
-    const startDate = new Date();
-    await CommonLocators.selectStartDate(page, 'Start Date', startDate);
-    await CommonLocators.selectEndDate(page, 'End Date', startDate, true);
-    await CommonLocators.selectBuilding(page, 'FRS Building')
-    await CommonLocators.selectRoomType(page, 'NRB')
+    await pricingConfigurationPage.selectFoundation(page, 'Foundation', 'Business')
+    await CommonLocators.selectStartDate(page, 'Start Date', true);
+    await CommonLocators.selectEndDate(page, 'End Date', true);
+    await pricingConfigurationPage.selectBuilding(page)
+    await pricingConfigurationPage.selectRoomType(page)
     await CommonLocators.clickButtonByName(page, 'Save')
     await page.waitForTimeout(1000);
     await CommonLocators.verifySuccessMessage(page, 'New Pricing Plan has been added successfully')
@@ -1155,12 +1157,11 @@ test('Validate mandatory field validation during pricing plan creation', async (
     await configurationPage.selectConfigurationItems('Pricing')
     await pricingConfigurationPage.clickButtonByName(page, 'Add Pricing Plan')
     await CommonLocators.fillInput(page, 'Plan Name', '')
-    await CommonLocators.selectFoundation(page, 'Foundation', 'Business')
-    const startDate = new Date();
-    await CommonLocators.selectStartDate(page, 'Start Date', startDate);
-    await CommonLocators.selectEndDate(page, 'End Date', startDate, true);
-    await CommonLocators.selectBuilding(page, 'FRS Building')
-    await CommonLocators.selectRoomType(page, 'NRB')
+    await pricingConfigurationPage.selectFoundation(page, 'Foundation', 'Business')
+    await CommonLocators.selectStartDate(page, 'Start Date', true);
+    await CommonLocators.selectEndDate(page, 'End Date', true);
+    await pricingConfigurationPage.selectBuilding(page)
+    await pricingConfigurationPage.selectRoomType(page)
     await CommonLocators.clickButtonByName(page, 'Save')
     await CommonLocators.assertErrorNotification(page, 'This field is required')
 })
@@ -1178,18 +1179,17 @@ test('Verify system handles duplicate names in pricing plan', async ({ page }) =
     await configurationPage.selectConfigurationItems('Pricing')
     await pricingConfigurationPage.clickButtonByName(page, 'Add Pricing Plan')
     await CommonLocators.fillInput(page, 'Plan Name', '')
-    await CommonLocators.selectFoundation(page, 'Foundation', 'Business')
-    const startDate = new Date();
-    await CommonLocators.selectStartDate(page, 'Start Date', startDate);
-    await CommonLocators.selectEndDate(page, 'End Date', startDate, true);
-    await CommonLocators.selectBuilding(page, 'FRS Building')
-    await CommonLocators.selectRoomType(page, 'NRB')
+    await pricingConfigurationPage.selectFoundation(page, 'Foundation', 'Business')
+    await CommonLocators.selectStartDate(page, 'Start Date', true);
+    await CommonLocators.selectEndDate(page, 'End Date', true);
+    await pricingConfigurationPage.selectBuilding(page)
+    await pricingConfigurationPage.selectRoomType(page)
     await CommonLocators.clickButtonByName(page, 'Save')
     await CommonLocators.assertErrorNotification(page, 'This field is required')
 
 })
 
-test('validate whether the system restricts to select the same start date and end date', async ({ page }) => {
+test('validate whether the system restricts to select invalid start date and end date', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
     const configurationPage = new ConfigurationPage(page);
@@ -1203,12 +1203,11 @@ test('validate whether the system restricts to select the same start date and en
     await configurationPage.selectConfigurationItems('Pricing')
     await pricingConfigurationPage.clickButtonByName(page, 'Add Pricing Plan')
     await CommonLocators.fillInput(page, 'Plan Name', randomName)
-    await CommonLocators.selectFoundation(page, 'Foundation', 'Business')
-    const startDate = new Date();
-    await CommonLocators.selectStartDate(page, 'Start Date', startDate);
-    await CommonLocators.selectEndDate(page, 'End Date', startDate, false);
-    await CommonLocators.selectBuilding(page, 'FRS Building')
-    await CommonLocators.selectRoomType(page, 'NRB')
+    await pricingConfigurationPage.selectFoundation(page, 'Foundation', 'Business')
+    await CommonLocators.selectStartDate(page, 'Start Date', false);
+    await CommonLocators.selectEndDate(page, 'End Date', false);
+    await pricingConfigurationPage.selectBuilding(page)
+    await pricingConfigurationPage.selectRoomType(page)
     await CommonLocators.clickButtonByName(page, 'Save')
     await page.waitForTimeout(1000);
     await CommonLocators.assertErrorNotification(page, 'End date must be after start date')
@@ -1228,12 +1227,11 @@ test('verify the valid building and room type selection', async ({ page }) => {
     await configurationPage.selectConfigurationItems('Pricing')
     await pricingConfigurationPage.clickButtonByName(page, 'Add Pricing Plan')
     await CommonLocators.fillInput(page, 'Plan Name', randomName)
-    await CommonLocators.selectFoundation(page, 'Foundation', 'Business')
-    const startDate = new Date();
-    await CommonLocators.selectStartDate(page, 'Start Date', startDate);
-    await CommonLocators.selectEndDate(page, 'End Date', startDate, true);
-    await CommonLocators.selectBuilding(page, 'FRS Building')
-    await CommonLocators.selectRoomType(page, 'NRB')
+    await pricingConfigurationPage.selectFoundation(page, 'Foundation', 'Business')
+    await CommonLocators.selectStartDate(page, 'Start Date', true);
+    await CommonLocators.selectEndDate(page, 'End Date', true);
+    await pricingConfigurationPage.selectBuilding(page)
+    await pricingConfigurationPage.selectRoomType(page)
     await CommonLocators.clickButtonByName(page, 'Save')
     await page.waitForTimeout(1000);
     await CommonLocators.verifySuccessMessage(page, 'New Pricing Plan has been added successfully')
@@ -1375,7 +1373,8 @@ test('validate large file size error in CSV upload', async ({ page }) => {
     await loginPage.login(EMAIL, PASSWORD, OTP);
 
     await homePage.clickMenuItem('Configurations')
-    await configurationPage.selectConfigurationItems('Pricing')
+    await configurationPage.selectConfigurationItems('Meta')
+
     await pricingConfigurationPage.clickFirstPricingPlan();
     await pricingConfigurationPage.clickButtonByName(page, 'Upload')
     const csvFilePath = '/Users/rithikaa/Qcare UI Automation/test-files/sample_11mb.csv';
@@ -1436,4 +1435,286 @@ test('verify pagination controls in pricing config', async ({ page }) => {
     await homePage.clickMenuItem('Configurations')
     await configurationPage.selectConfigurationItems('Pricing')
     await CommonLocators.verifyPagination(page);
+})
+
+// Discount
+
+test('verify user can add a global discount', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const discountPage = new discount(page);
+    const randomName = generateRandomName();
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Discount')
+    await discountPage.clickButtonByName(page, 'Add Discount')
+    await CommonLocators.fillInput(page, 'Discount', randomName)
+    await discountPage.selectDropdown(page, 'Type', 'Percentage')
+    await CommonLocators.fillInput(page, 'Value', '10.75')
+    await discountPage.selectDropdown(page, 'Applicability', 'Recurring')
+    await CommonLocators.selectStartDate(page, 'Validity From', true)
+    await CommonLocators.selectEndDate(page, 'Validity To', true)
+    await discountPage.selectDropdown(page, 'Scope', 'Global')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000);
+    await CommonLocators.verifySuccessMessage(page, 'New discount has been added successfully.')
+})
+
+test('Validate mandatory field validation during discount creation', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const discountPage = new discount(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Discount')
+    await discountPage.clickButtonByName(page, 'Add Discount')
+    await CommonLocators.fillInput(page, 'Discount', '')
+    await discountPage.selectDropdown(page, 'Type', 'Percentage')
+    await CommonLocators.fillInput(page, 'Value', '10.75')
+    await discountPage.selectDropdown(page, 'Applicability', 'Recurring')
+    await CommonLocators.selectStartDate(page, 'Validity From', true)
+    await CommonLocators.selectEndDate(page, 'Validity To', true)
+    await discountPage.selectDropdown(page, 'Scope', 'Global')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000);
+    await CommonLocators.assertErrorNotification(page, 'Discount name is required')
+})
+
+test('verify date validation in Discount creation', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const discountPage = new discount(page);
+    const randomName = generateRandomName();
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Discount')
+    await discountPage.clickButtonByName(page, 'Add Discount')
+    await CommonLocators.fillInput(page, 'Discount', randomName)
+    await discountPage.selectDropdown(page, 'Type', 'Percentage')
+    await CommonLocators.fillInput(page, 'Value', '10.75')
+    await discountPage.selectDropdown(page, 'Applicability', 'Recurring')
+    await CommonLocators.selectStartDate(page, 'Validity From', false)
+    await CommonLocators.selectEndDate(page, 'Validity To', false)
+    await discountPage.selectDropdown(page, 'Scope', 'Global')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000);
+    await CommonLocators.assertErrorNotification(page, 'Validity To must be after Validity From')
+})
+
+test('verify the system only accepts numeric values in Discount creation', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const discountPage = new discount(page);
+    const randomName = generateRandomName();
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Discount')
+    await discountPage.clickButtonByName(page, 'Add Discount')
+    await CommonLocators.fillInput(page, 'Discount', randomName)
+    await discountPage.selectDropdown(page, 'Type', 'Percentage')
+    await CommonLocators.fillInput(page, 'Value', 'hello')
+    await discountPage.selectDropdown(page, 'Applicability', 'Recurring')
+    await CommonLocators.selectStartDate(page, 'Validity From', true)
+    await CommonLocators.selectEndDate(page, 'Validity To', true)
+    await discountPage.selectDropdown(page, 'Scope', 'Global')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000);
+    await CommonLocators.assertErrorNotification(page, 'Enter a valid percentage value with maximum 2 decimal places')
+})
+
+test('verify user can add a resident discount', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const discountPage = new discount(page);
+    const randomName = generateRandomName();
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Discount')
+    await discountPage.clickButtonByName(page, 'Add Discount')
+    await CommonLocators.fillInput(page, 'Discount', randomName)
+    await discountPage.selectDropdown(page, 'Type', 'Percentage')
+    await CommonLocators.fillInput(page, 'Value', '10.75')
+    await discountPage.selectDropdown(page, 'Applicability', 'One time')
+    await CommonLocators.selectStartDate(page, 'Validity From', true)
+    await CommonLocators.selectEndDate(page, 'Validity To', true)
+    await discountPage.selectDropdown(page, 'Scope', 'Residents')
+    await CommonLocators.clickButtonByName(page, 'Next')
+    await discountPage.selectValues(page, 5)
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000)
+    await CommonLocators.verifySuccessMessage(page, 'New discount has been added successfully.')
+})
+
+test('verify if save button is disabled when residents are not selected while creating resident discount', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const discountPage = new discount(page);
+    const randomName = generateRandomName();
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Discount')
+    await discountPage.clickButtonByName(page, 'Add Discount')
+    await CommonLocators.fillInput(page, 'Discount', randomName)
+    await discountPage.selectDropdown(page, 'Type', 'Percentage')
+    await CommonLocators.fillInput(page, 'Value', '10.75')
+    await discountPage.selectDropdown(page, 'Applicability', 'One time')
+    await CommonLocators.selectStartDate(page, 'Validity From', true)
+    await CommonLocators.selectEndDate(page, 'Validity To', true)
+    await discountPage.selectDropdown(page, 'Scope', 'Residents')
+    await CommonLocators.clickButtonByName(page, 'Next')
+    const saveButton = page.getByRole('button', { name: 'Save' })
+    await expect(saveButton).toBeVisible()
+    await expect(saveButton).toBeDisabled()
+})
+
+test('verify user can add a building discount', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const discountPage = new discount(page);
+    const randomName = generateRandomName();
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Discount')
+    await discountPage.clickButtonByName(page, 'Add Discount')
+    await CommonLocators.fillInput(page, 'Discount', randomName)
+    await discountPage.selectDropdown(page, 'Type', 'Percentage')
+    await CommonLocators.fillInput(page, 'Value', '10.75')
+    await discountPage.selectDropdown(page, 'Applicability', 'One time')
+    await CommonLocators.selectStartDate(page, 'Validity From', true)
+    await CommonLocators.selectEndDate(page, 'Validity To', true)
+    await discountPage.selectDropdown(page, 'Scope', 'Buildings')
+    await CommonLocators.clickButtonByName(page, 'Next')
+    await discountPage.selectValues(page, 5)
+    await CommonLocators.clickButtonByName(page, 'Next')
+    await discountPage.selectValues(page, 5)
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000)
+    await CommonLocators.verifySuccessMessage(page, 'New discount has been added successfully.')
+})
+
+test('verify if save button is disabled when room types are not selected while creating building discount', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const discountPage = new discount(page);
+    const randomName = generateRandomName();
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Discount')
+    await discountPage.clickButtonByName(page, 'Add Discount')
+    await CommonLocators.fillInput(page, 'Discount', randomName)
+    await discountPage.selectDropdown(page, 'Type', 'Percentage')
+    await CommonLocators.fillInput(page, 'Value', '10.75')
+    await discountPage.selectDropdown(page, 'Applicability', 'One time')
+    await CommonLocators.selectStartDate(page, 'Validity From', true)
+    await CommonLocators.selectEndDate(page, 'Validity To', true)
+    await discountPage.selectDropdown(page, 'Scope', 'Buildings')
+    await CommonLocators.clickButtonByName(page, 'Next')
+    await discountPage.selectValues(page, 5)
+    await CommonLocators.clickButtonByName(page, 'Next')
+    const saveButton = page.getByRole('button', { name: 'Save' })
+    await expect(saveButton).toBeVisible()
+    await expect(saveButton).toBeDisabled()
+})
+
+test('verify the restriction of duplicate discount creation', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const discountPage = new discount(page);
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Discount')
+    await discountPage.clickButtonByName(page, 'Add Discount')
+    await CommonLocators.fillInput(page, 'Discount', 'Do not delete')
+    await discountPage.selectDropdown(page, 'Type', 'Percentage')
+    await CommonLocators.fillInput(page, 'Value', '10.75')
+    await discountPage.selectDropdown(page, 'Applicability', 'Recurring')
+    await CommonLocators.selectStartDate(page, 'Validity From', true)
+    await CommonLocators.selectEndDate(page, 'Validity To', true)
+    await discountPage.selectDropdown(page, 'Scope', 'Global')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000);
+    await CommonLocators.assertErrorNotification(page, 'Discount Plan with the same name already exists.')
+})
+
+test('verify that the newly added discount is listed first in the page', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const homePage = new HomePage(page);
+    const configurationPage = new ConfigurationPage(page);
+    const metaConfigurationPage = new MetaConfiguration(page);
+    const discountPage = new discount(page);
+    const randomName = generateRandomName();
+
+    await loginPage.goto(BASE_URL);
+    await loginPage.login(EMAIL, PASSWORD, OTP);
+
+    await homePage.clickMenuItem('Configurations')
+    await configurationPage.selectConfigurationItems('Meta')
+    await metaConfigurationPage.selectMetaOptions('Discount')
+    await discountPage.clickButtonByName(page, 'Add Discount')
+    await CommonLocators.fillInput(page, 'Discount', randomName)
+    await discountPage.selectDropdown(page, 'Type', 'Percentage')
+    await CommonLocators.fillInput(page, 'Value', '10.75')
+    await discountPage.selectDropdown(page, 'Applicability', 'Recurring')
+    await CommonLocators.selectStartDate(page, 'Validity From', true)
+    await CommonLocators.selectEndDate(page, 'Validity To', true)
+    await discountPage.selectDropdown(page, 'Scope', 'Global')
+    await CommonLocators.clickButtonByName(page, 'Save')
+    await page.waitForTimeout(1000);
+    await CommonLocators.verifySuccessMessage(page, 'New discount has been added successfully.')
+    const firstDiscountName = await CommonLocators.getFirstListItemTitle(page);
+    expect(firstDiscountName).toBe(randomName);
 })

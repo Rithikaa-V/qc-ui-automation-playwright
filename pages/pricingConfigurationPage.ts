@@ -53,7 +53,7 @@ export class pricingConfiguration {
     await expect(dropdown).toContainText(optionText);
   }
 
-  async selectBuilding(page: Page, buildingName?: string) {
+  async selectBuilding(page: Page, buildingName?: string): Promise<string> {
     const input = page.locator('input#building');
     const dropdown = page.locator('div.ant-select-selector:has(input#building)');
     await expect(dropdown).toBeVisible();
@@ -62,14 +62,18 @@ export class pricingConfiguration {
     const listId = await input.getAttribute('aria-controls');
     const options = page.locator(`#${listId} .ant-select-item-option:not(.ant-select-item-option-disabled)`);
 
+    let selectedText = '';
+
     if (buildingName) {
       const option = options.filter({ hasText: new RegExp(`^${buildingName}$`, 'i') });
       if (await option.count() === 0) {
         const partialOption = options.filter({ hasText: buildingName });
         await expect(partialOption.first()).toBeVisible({ timeout: 5000 });
+        selectedText = (await partialOption.first().textContent()) || buildingName;
         await partialOption.first().click({ force: true });
       } else {
         await expect(option).toBeVisible({ timeout: 5000 });
+        selectedText = (await option.textContent()) || buildingName;
         await option.click({ force: true });
       }
       await page.keyboard.press('Escape');
@@ -77,6 +81,7 @@ export class pricingConfiguration {
       const firstOption = options.first();
       await expect(firstOption).toBeVisible({ timeout: 10000 });
       await firstOption.scrollIntoViewIfNeeded();
+      selectedText = (await firstOption.textContent()) || '';
 
       if (await firstOption.getAttribute('aria-selected') !== 'true') {
         await firstOption.click({ force: true });
@@ -84,9 +89,10 @@ export class pricingConfiguration {
 
       await page.keyboard.press('Escape');
     }
+    return selectedText.trim();
   }
 
-  async selectRoomType(page: Page, roomTypeName?: string) {
+  async selectRoomType(page: Page, roomTypeName?: string): Promise<string> {
     const input = page.locator('input#roomType');
     const dropdown = page.locator('div.ant-select-selector:has(input#roomType)');
     await expect(dropdown).toBeVisible();
@@ -95,14 +101,18 @@ export class pricingConfiguration {
     const listId = await input.getAttribute('aria-controls');
     const options = page.locator(`#${listId} .ant-select-item-option:not(.ant-select-item-option-disabled)`);
 
+    let selectedText = '';
+
     if (roomTypeName) {
       const option = options.filter({ hasText: new RegExp(`^${roomTypeName}$`, 'i') });
       if (await option.count() === 0) {
         const partialOption = options.filter({ hasText: roomTypeName });
         await expect(partialOption.first()).toBeVisible({ timeout: 5000 });
+        selectedText = (await partialOption.first().textContent()) || roomTypeName;
         await partialOption.first().click({ force: true });
       } else {
         await expect(option).toBeVisible({ timeout: 5000 });
+        selectedText = (await option.textContent()) || roomTypeName;
         await option.click({ force: true });
       }
       await page.keyboard.press('Escape');
@@ -110,6 +120,7 @@ export class pricingConfiguration {
       const firstOption = options.first();
       await expect(firstOption).toBeVisible({ timeout: 10000 });
       await firstOption.scrollIntoViewIfNeeded();
+      selectedText = (await firstOption.textContent()) || '';
 
       if (await firstOption.getAttribute('aria-selected') !== 'true') {
         await firstOption.click({ force: true });
@@ -117,23 +128,35 @@ export class pricingConfiguration {
 
       await page.keyboard.press('Escape');
     }
+    return selectedText.trim();
   }
 
 
 
   async clickPricingPlanByName(planName: string) {
     const row = this.page.locator('tr.ant-table-row', {
-      has: this.page.locator('span._planNameText_1uhdx_106', {
+      has: this.page.locator('span[class*="planNameText"]', {
         hasText: planName,
       }),
     });
     await expect(row).toBeVisible({ timeout: 15000 });
-    await row.click();
+    await row.click({ force: true });
+  }
+
+  async getColumnIndex(headerName: string): Promise<number> {
+    const header = this.page.locator('th[scope="col"]', { hasText: new RegExp(`^${headerName}$`, 'i') });
+    await expect(header).toBeVisible({ timeout: 10000 });
+
+    return await header.evaluate((node) => {
+      const row = node.closest('tr');
+      if (!row) return -1;
+      return Array.from(row.children).indexOf(node);
+    });
   }
 
   async getPricingPlanRowValues(planName: string) {
     const row = this.page.locator('tr.ant-table-row', {
-      has: this.page.locator('span._planNameText_1uhdx_106', {
+      has: this.page.locator('span[class*="planNameText"]', {
         hasText: planName,
       }),
     });

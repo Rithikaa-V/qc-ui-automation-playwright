@@ -1230,12 +1230,12 @@ test('verify the valid building and room type selection', async ({ page }) => {
     await pricingConfigurationPage.selectFoundation(page, 'Foundation', 'Business')
     await CommonLocators.selectStartDate(page, 'Start Date', true);
     await CommonLocators.selectEndDate(page, 'End Date', true);
-    await pricingConfigurationPage.selectBuilding(page)
-    await pricingConfigurationPage.selectRoomType(page)
+    const selectedBuilding = await pricingConfigurationPage.selectBuilding(page)
+    const selectedRoomType = await pricingConfigurationPage.selectRoomType(page)
     await CommonLocators.clickButtonByName(page, 'Save')
     await page.waitForTimeout(1000);
     await CommonLocators.verifySuccessMessage(page, 'New Pricing Plan has been added successfully')
-    await pricingConfigurationPage.verifyPricingPlanValues(randomName, 'FRS Building', 'NRB');
+    await pricingConfigurationPage.verifyPricingPlanValues(randomName, selectedBuilding, selectedRoomType);
     await pricingConfigurationPage.clickPricingPlanByName(randomName);
 })
 

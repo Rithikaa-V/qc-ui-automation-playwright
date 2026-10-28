@@ -1,0 +1,344 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e4]:
+    - complementary [ref=e5]:
+      - generic [ref=e6]:
+        - img [ref=e8] [cursor=pointer]
+        - menu [ref=e10]:
+          - menuitem " Dashboard" [disabled] [ref=e11]:
+            - generic: 
+            - generic [ref=e12]: Dashboard
+          - menuitem " Configurations" [expanded] [ref=e13] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e14]: Configurations
+          - menu [ref=e15]:
+            - menuitem "Building" [ref=e16] [cursor=pointer]:
+              - generic [ref=e18]: Building
+            - menuitem "Pricing" [ref=e19] [cursor=pointer]:
+              - generic [ref=e21]: Pricing
+            - menuitem "Meta" [ref=e22] [cursor=pointer]:
+              - generic [ref=e24]: Meta
+            - menuitem "Agreement" [ref=e25] [cursor=pointer]:
+              - generic [ref=e27]: Agreement
+          - menuitem " Check In" [ref=e28] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e29]: Check In
+          - menuitem " Check Out" [ref=e30] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e31]: Check Out
+          - menuitem " Customers" [ref=e32] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e33]: Customers
+          - menuitem " Finance" [ref=e34] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e35]: Finance
+          - menuitem " Internal Management" [ref=e36] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e37]: Internal Management
+          - menuitem " Reports" [disabled] [ref=e38]:
+            - generic: 
+            - generic [ref=e39]: Reports
+          - menuitem " Settings" [ref=e40] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e41]: Settings
+          - menuitem " Maintenance" [ref=e42] [cursor=pointer]:
+            - generic: 
+            - generic [ref=e43]: Maintenance
+    - generic [ref=e44]:
+      - banner [ref=e45]:
+        - generic [ref=e46]:
+          - heading "Pricing Configuration" [level=3] [ref=e47] [cursor=pointer]
+          - generic [ref=e48]:
+            - generic [ref=e49] [cursor=pointer]:
+              - generic [ref=e51]:
+                - combobox [ref=e53]
+                - generic: Select Building
+              - generic:
+                - generic: 
+            - generic [ref=e55] [cursor=pointer]: AV
+      - main [ref=e56]:
+        - generic [ref=e61]:
+          - generic [ref=e62]:
+            - generic [ref=e64]:
+              - generic [ref=e66]: 
+              - textbox "Search pricing plans..." [ref=e67]
+            - button "Add Pricing Plan" [ref=e70] [cursor=pointer]:
+              - generic [ref=e71]: Add Pricing Plan
+          - generic [ref=e75]:
+            - generic [ref=e77]:
+              - table [ref=e79]:
+                - rowgroup [ref=e89]:
+                  - row "Plan Name Scope Start Date End Date Building Room Type Status" [ref=e90]:
+                    - columnheader "Plan Name" [ref=e91]
+                    - columnheader "Scope" [ref=e92]
+                    - columnheader "Start Date" [ref=e93]
+                    - columnheader "End Date" [ref=e94]
+                    - columnheader "Building" [ref=e95]
+                    - columnheader "Room Type" [ref=e96]
+                    - columnheader "Status" [ref=e97] [cursor=pointer]:
+                      - generic [ref=e98]:
+                        - generic [ref=e99]: Status
+                        - generic [ref=e101]:
+                          - img [ref=e102]:
+                            - img [ref=e103]
+                          - img [ref=e105]:
+                            - img [ref=e106]
+                    - cell [ref=e108]
+              - table [ref=e110]:
+                - rowgroup [ref=e120]:
+                  - generic [ref=e121] [cursor=pointer]:
+                    - generic [ref=e122]: Status
+                    - generic [ref=e124]:
+                      - img [ref=e125]:
+                        - img [ref=e126]
+                      - img [ref=e128]:
+                        - img [ref=e129]
+                  - row "ervOuschvK business 3/1/2026 3/29/2026 treytwrtreht Fire room Pending " [ref=e131] [cursor=pointer]:
+                    - cell "ervOuschvK" [ref=e132]:
+                      - generic [ref=e133]: ervOuschvK
+                    - cell "business" [ref=e134]
+                    - cell "3/1/2026" [ref=e135]
+                    - cell "3/29/2026" [ref=e136]
+                    - cell "treytwrtreht" [ref=e137]:
+                      - generic [ref=e139]: treytwrtreht
+                    - cell "Fire room" [ref=e140]:
+                      - generic [ref=e142]: Fire room
+                    - cell "Pending" [ref=e143]:
+                      - generic [ref=e144]: Pending
+                    - cell "" [ref=e146]:
+                      - generic [ref=e148]: 
+                  - row "jiksScyMJI business 3/1/2026 3/29/2026 treytwrtreht Fire room Pending " [ref=e149] [cursor=pointer]:
+                    - cell "jiksScyMJI" [ref=e150]:
+                      - generic [ref=e151]: jiksScyMJI
+                    - cell "business" [ref=e152]
+                    - cell "3/1/2026" [ref=e153]
+                    - cell "3/29/2026" [ref=e154]
+                    - cell "treytwrtreht" [ref=e155]:
+                      - generic [ref=e157]: treytwrtreht
+                    - cell "Fire room" [ref=e158]:
+                      - generic [ref=e160]: Fire room
+                    - cell "Pending" [ref=e161]:
+                      - generic [ref=e162]: Pending
+                    - cell "" [ref=e164]:
+                      - generic [ref=e166]: 
+                  - row "XpuXLZAxTv business 3/1/2026 3/29/2026 treytwrtreht Fire room Pending " [ref=e167] [cursor=pointer]:
+                    - cell "XpuXLZAxTv" [ref=e168]:
+                      - generic [ref=e169]: XpuXLZAxTv
+                    - cell "business" [ref=e170]
+                    - cell "3/1/2026" [ref=e171]
+                    - cell "3/29/2026" [ref=e172]
+                    - cell "treytwrtreht" [ref=e173]:
+                      - generic [ref=e175]: treytwrtreht
+                    - cell "Fire room" [ref=e176]:
+                      - generic [ref=e178]: Fire room
+                    - cell "Pending" [ref=e179]:
+                      - generic [ref=e180]: Pending
+                    - cell "" [ref=e182]:
+                      - generic [ref=e184]: 
+                  - row "oWIODAlDJe business 3/1/2026 3/29/2026 treytwrtreht Fire room Pending " [ref=e185] [cursor=pointer]:
+                    - cell "oWIODAlDJe" [ref=e186]:
+                      - generic [ref=e187]: oWIODAlDJe
+                    - cell "business" [ref=e188]
+                    - cell "3/1/2026" [ref=e189]
+                    - cell "3/29/2026" [ref=e190]
+                    - cell "treytwrtreht" [ref=e191]:
+                      - generic [ref=e193]: treytwrtreht
+                    - cell "Fire room" [ref=e194]:
+                      - generic [ref=e196]: Fire room
+                    - cell "Pending" [ref=e197]:
+                      - generic [ref=e198]: Pending
+                    - cell "" [ref=e200]:
+                      - generic [ref=e202]: 
+                  - row "Plan2026Alpha1770190333479 business 2/6/2026 2/14/2026 Record Building Edit WW Rooms Pending " [ref=e203] [cursor=pointer]:
+                    - cell "Plan2026Alpha1770190333479" [ref=e204]:
+                      - generic [ref=e205]: Plan2026Alpha1770190333479
+                    - cell "business" [ref=e206]
+                    - cell "2/6/2026" [ref=e207]
+                    - cell "2/14/2026" [ref=e208]
+                    - cell "Record Building Edit" [ref=e209]:
+                      - generic [ref=e211]: Record Building Edit
+                    - cell "WW Rooms" [ref=e212]:
+                      - generic [ref=e214]: WW Rooms
+                    - cell "Pending" [ref=e215]:
+                      - generic [ref=e216]: Pending
+                    - cell "" [ref=e218]:
+                      - generic [ref=e220]: 
+                  - row "Plan2026Alpha1770190271589 business 2/6/2026 2/14/2026 Record Building Edit WW Rooms Pending " [ref=e221] [cursor=pointer]:
+                    - cell "Plan2026Alpha1770190271589" [ref=e222]:
+                      - generic [ref=e223]: Plan2026Alpha1770190271589
+                    - cell "business" [ref=e224]
+                    - cell "2/6/2026" [ref=e225]
+                    - cell "2/14/2026" [ref=e226]
+                    - cell "Record Building Edit" [ref=e227]:
+                      - generic [ref=e229]: Record Building Edit
+                    - cell "WW Rooms" [ref=e230]:
+                      - generic [ref=e232]: WW Rooms
+                    - cell "Pending" [ref=e233]:
+                      - generic [ref=e234]: Pending
+                    - cell "" [ref=e236]:
+                      - generic [ref=e238]: 
+                  - row "VTxidUJeeU business 3/1/2026 3/29/2026 treytwrtreht Fire room Pending " [ref=e239] [cursor=pointer]:
+                    - cell "VTxidUJeeU" [ref=e240]:
+                      - generic [ref=e241]: VTxidUJeeU
+                    - cell "business" [ref=e242]
+                    - cell "3/1/2026" [ref=e243]
+                    - cell "3/29/2026" [ref=e244]
+                    - cell "treytwrtreht" [ref=e245]:
+                      - generic [ref=e247]: treytwrtreht
+                    - cell "Fire room" [ref=e248]:
+                      - generic [ref=e250]: Fire room
+                    - cell "Pending" [ref=e251]:
+                      - generic [ref=e252]: Pending
+                    - cell "" [ref=e254]:
+                      - generic [ref=e256]: 
+                  - row "random111223243 business 2/11/2026 2/16/2026 Record Building Edit WW Rooms Pending " [ref=e257] [cursor=pointer]:
+                    - cell "random111223243" [ref=e258]:
+                      - generic [ref=e259]: random111223243
+                    - cell "business" [ref=e260]
+                    - cell "2/11/2026" [ref=e261]
+                    - cell "2/16/2026" [ref=e262]
+                    - cell "Record Building Edit" [ref=e263]:
+                      - generic [ref=e265]: Record Building Edit
+                    - cell "WW Rooms" [ref=e266]:
+                      - generic [ref=e268]: WW Rooms
+                    - cell "Pending" [ref=e269]:
+                      - generic [ref=e270]: Pending
+                    - cell "" [ref=e272]:
+                      - generic [ref=e274]: 
+                  - row "Testplannew business 2/27/2026 2/28/2026 RIT Building Test suvetha Pending " [ref=e275] [cursor=pointer]:
+                    - cell "Testplannew" [ref=e276]:
+                      - generic [ref=e277]: Testplannew
+                    - cell "business" [ref=e278]
+                    - cell "2/27/2026" [ref=e279]
+                    - cell "2/28/2026" [ref=e280]
+                    - cell "RIT Building" [ref=e281]:
+                      - generic [ref=e283]: RIT Building
+                    - cell "Test suvetha" [ref=e284]:
+                      - generic [ref=e286]: Test suvetha
+                    - cell "Pending" [ref=e287]:
+                      - generic [ref=e288]: Pending
+                    - cell "" [ref=e290]:
+                      - generic [ref=e292]: 
+                  - row "FE99 business 1/31/2026 1/31/2026 Buildingcz abcTest +1 Room for young Plan AA +8 Inactive" [ref=e293] [cursor=pointer]:
+                    - cell "FE99" [ref=e294]:
+                      - generic [ref=e295]: FE99
+                    - cell "business" [ref=e296]
+                    - cell "1/31/2026" [ref=e297]
+                    - cell "1/31/2026" [ref=e298]
+                    - cell "Buildingcz abcTest +1" [ref=e299]:
+                      - generic [ref=e300]:
+                        - generic [ref=e301]: Buildingcz
+                        - generic [ref=e302]: abcTest
+                        - generic [ref=e304]: "+1"
+                    - cell "Room for young Plan AA +8" [ref=e305]:
+                      - generic [ref=e306]:
+                        - generic [ref=e307]: Room for young
+                        - generic [ref=e308]: Plan AA
+                        - generic [ref=e310]: "+8"
+                    - cell "Inactive" [ref=e311]:
+                      - generic [ref=e312]: Inactive
+                    - cell [ref=e314]
+            - list [ref=e315]:
+              - listitem "Previous Page" [ref=e316]:
+                - button "left" [disabled] [ref=e317]:
+                  - img "left" [ref=e318]:
+                    - img [ref=e319]
+              - listitem "1" [ref=e321] [cursor=pointer]:
+                - generic [ref=e322]: "1"
+              - listitem "2" [ref=e323] [cursor=pointer]:
+                - generic [ref=e324]: "2"
+              - listitem "3" [ref=e325] [cursor=pointer]:
+                - generic [ref=e326]: "3"
+              - listitem "4" [ref=e327] [cursor=pointer]:
+                - generic [ref=e328]: "4"
+              - listitem "5" [ref=e329] [cursor=pointer]:
+                - generic [ref=e330]: "5"
+              - listitem "Next 5 Pages" [ref=e331] [cursor=pointer]:
+                - generic [ref=e333]:
+                  - img "double-right" [ref=e334]:
+                    - img [ref=e335]
+                  - generic [ref=e337]: •••
+              - listitem "33" [ref=e338] [cursor=pointer]:
+                - generic [ref=e339]: "33"
+              - listitem "Next Page" [ref=e340] [cursor=pointer]:
+                - button "right" [ref=e341]:
+                  - img "right" [ref=e342]:
+                    - img [ref=e343]
+  - generic [ref=e345]:
+    - dialog "New Pricing Plan":
+      - generic [ref=e346]:
+        - button "Close" [ref=e347] [cursor=pointer]:
+          - generic "Close" [ref=e348]:
+            - generic [ref=e349]: 
+        - generic [ref=e351]: New Pricing Plan
+        - generic [ref=e354]:
+          - generic [ref=e355]:
+            - generic [ref=e357]:
+              - generic [ref=e359]: Plan Name*
+              - textbox "Plan Name*" [ref=e360]:
+                - /placeholder: Enter Plan Name
+                - text: Plwfmf
+            - generic [ref=e362]:
+              - generic [ref=e364]: Foundation*
+              - generic [ref=e365] [cursor=pointer]:
+                - generic [ref=e367]:
+                  - combobox [ref=e369]
+                  - generic "Business" [ref=e370]
+                - generic:
+                  - generic: 
+          - generic [ref=e371]:
+            - generic [ref=e373]:
+              - generic [ref=e375]: Start Date*
+              - generic [ref=e377]:
+                - textbox "YYYY-MM-DD" [ref=e378]: 2026-02-04
+                - generic:
+                  - generic: 
+                - button "close-circle" [ref=e379] [cursor=pointer]:
+                  - img "close-circle" [ref=e380]:
+                    - img [ref=e381]
+            - generic [ref=e384]:
+              - generic [ref=e386]: End Date*
+              - generic [ref=e388]:
+                - textbox "YYYY-MM-DD" [ref=e389]: 2026-02-05
+                - generic:
+                  - generic: 
+                - button "close-circle" [ref=e390] [cursor=pointer]:
+                  - img "close-circle" [ref=e391]:
+                    - img [ref=e392]
+          - generic [ref=e394]:
+            - generic [ref=e396]:
+              - generic [ref=e398]: Building*
+              - generic [ref=e399] [cursor=pointer]:
+                - generic [ref=e402]:
+                  - generic "treytwrtreht" [ref=e404]:
+                    - generic [ref=e405]: treytwrtreht
+                    - img [ref=e407]:
+                      - img [ref=e408]
+                  - generic:
+                    - generic:
+                      - generic: "+0"
+                  - combobox "Building*" [ref=e410]
+                - generic:
+                  - generic: 
+            - generic [ref=e412]:
+              - generic [ref=e414]: Room Type
+              - generic [ref=e415] [cursor=pointer]:
+                - generic [ref=e418]:
+                  - generic "Fire room" [ref=e420]:
+                    - generic [ref=e421]: Fire room
+                    - img [ref=e423]:
+                      - img [ref=e424]
+                  - generic:
+                    - generic:
+                      - generic: "+0"
+                  - combobox "Room Type" [ref=e426]
+                - generic:
+                  - generic: 
+        - generic [ref=e427]:
+          - button "Cancel" [ref=e428] [cursor=pointer]:
+            - generic [ref=e429]: Cancel
+          - button "Save" [active] [ref=e430] [cursor=pointer]:
+            - generic [ref=e431]: Save
+```

@@ -118,7 +118,7 @@ export class CommonLocators {
   }
 
   static async getFirstListItemTitle(page: Page): Promise<string> {
-    // Using actionItemComponent as used in verifySearchResult
+
     const listItems = page.getByTestId('actionItemComponent');
     await expect(listItems.first()).toBeVisible({ timeout: 10000 });
 
